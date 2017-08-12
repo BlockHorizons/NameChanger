@@ -51,6 +51,8 @@ class NameChanger extends PluginBase implements Listener {
 		if(isset($this->userNameChanged[$event->getPlayer()->getName()])) {
 			$event->getPlayer()->sendMessage(TextFormat::GREEN . "Your username has been changed to " . $event->getPlayer()->getName());
 			unset($this->userNameChanged[$event->getPlayer()->getName()]);
+		} else {
+			$event->getPlayer()->sendTip(TextFormat::AQUA . "Open the settings screen to switch username.");
 		}
 	}
 
