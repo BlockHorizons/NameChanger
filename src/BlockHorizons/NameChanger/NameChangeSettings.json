@@ -1,0 +1,25 @@
+{
+  "type": "custom_form",
+  "title": "Name Changing Menu",
+  "icon": {
+    "type": "url",
+    "data": "https://minecraft.gamepedia.com/media/minecraft.gamepedia.com/9/9c/Skeleton_Skull.png"
+  },
+  "content": [
+    {
+      "type": "label",
+      "text": "As of the 1.2 update, players are forced to log into XBOX Live accounts to join servers. This name changing menu exists to prevent players from losing their progress."
+    },
+    {
+      "type": "input",
+      "text": "New In-Game Name",
+      "placeholder": "In-Game Name",
+      "default": "Steve"
+    },
+    {
+      "type": "toggle",
+      "text": "Confirm Custom Name",
+      "default": false
+    }
+  ]
+}

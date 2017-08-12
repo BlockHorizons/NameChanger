@@ -1,0 +1,8 @@
+---
+name: NameChanger
+version: 1.0.0
+api:
+- 3.0.0-ALPHA7
+main: BlockHorizons\NameChanger\NameChanger
+author: BlockHorizons
+...
