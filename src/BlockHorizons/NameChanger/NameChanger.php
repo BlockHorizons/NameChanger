@@ -3,7 +3,7 @@
 namespace BlockHorizons\NameChanger;
 
 use pocketmine\event\Listener;
-use pocketmine\event\player\PlayerLoginEvent;
+use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\server\DataPacketReceiveEvent;
 use pocketmine\network\mcpe\protocol\LoginPacket;
 use pocketmine\network\mcpe\protocol\ModalFormResponsePacket;
@@ -42,9 +42,9 @@ class NameChanger extends PluginBase implements Listener {
 	}
 
 	/**
-	 * @param PlayerLoginEvent $event
+	 * @param PlayerJoinEvent $event
 	 */
-	public function onLogin(PlayerLoginEvent $event) {
+	public function onJoin(PlayerJoinEvent $event) {
 		if(isset($this->userNameChanged[$event->getPlayer()->getName()])) {
 			$event->getPlayer()->sendMessage(TextFormat::GREEN . "Your username has been changed to " . $event->getPlayer()->getName());
 			unset($this->userNameChanged[$event->getPlayer()->getName()]);
