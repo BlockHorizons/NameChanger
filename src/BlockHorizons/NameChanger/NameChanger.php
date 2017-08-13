@@ -64,11 +64,11 @@ class NameChanger extends PluginBase implements Listener {
 		if($packet instanceof ServerSettingsRequestPacket) {
 			$packet = new ServerSettingsResponsePacket();
 			$packet->formData = file_get_contents(__DIR__ . "\NameChangeSettings.json");
-			$packet->formId = 9999;
+			$packet->formId = 3218; // For future readers, this ID should be something other plugins won't use, and is only for yourself to recognize your response packets.
 			$event->getPlayer()->dataPacket($packet);
 		} elseif($packet instanceof ModalFormResponsePacket) {
 			$formId = $packet->formId;
-			if($formId !== 9999) {
+			if($formId !== 3218) {
 				return;
 			}
 			$formData = (array) json_decode($packet->formData, true);
