@@ -26,7 +26,7 @@ class NameChanger extends PluginBase implements Listener {
 		}
 		if(file_exists($path = $this->getDataFolder() . "sessions.yml")) {
 			foreach(yaml_parse_file($path) as $clientUUID => $serializedSession) {
-				$this->sessions[$clientUUID] = $serializedSession;
+				$this->sessions[$clientUUID] = unserialize($serializedSession, true);
 			}
 			unlink($path);
 		}
