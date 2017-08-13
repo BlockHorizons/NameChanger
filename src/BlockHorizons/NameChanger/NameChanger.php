@@ -68,7 +68,7 @@ class NameChanger extends PluginBase implements Listener {
 			$event->getPlayer()->dataPacket($packet);
 		} elseif($packet instanceof ModalFormResponsePacket) {
 			$formId = $packet->formId;
-			if(!$formId === 9999) {
+			if($formId !== 9999) {
 				return;
 			}
 			$formData = (array) json_decode($packet->formData, true);
