@@ -19,7 +19,7 @@ class PlayerSession {
 		$this->clientUUID = UUID::fromString($clientUUID);
 
 		$this->address = ($connectInfo = explode(":", $address))[0];
-		$this->port = (int) $address[1];
+		$this->port = (int) $connectInfo[1];
 	}
 
 	/**
