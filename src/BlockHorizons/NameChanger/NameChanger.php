@@ -24,6 +24,7 @@ class NameChanger extends PluginBase implements Listener {
 		if(!is_dir($this->getDataFolder())) {
 			mkdir($this->getDataFolder());
 		}
+		$this->saveResource("NameChangeSettings.json");
 		if(file_exists($path = $this->getDataFolder() . "sessions.yml")) {
 			foreach(yaml_parse_file($path) as $clientUUID => $serializedSession) {
 				$this->sessions[$clientUUID] = unserialize($serializedSession);
@@ -63,7 +64,7 @@ class NameChanger extends PluginBase implements Listener {
 		$packet = $event->getPacket();
 		if($packet instanceof ServerSettingsRequestPacket) {
 			$packet = new ServerSettingsResponsePacket();
-			$packet->formData = file_get_contents(__DIR__ . "\NameChangeSettings.json");
+			$packet->formData = file_get_contents($this->getDataFolder() . "NameChangeSettings.json");
 			$packet->formId = 3218; // For future readers, this ID should be something other plugins won't use, and is only for yourself to recognize your response packets.
 			$event->getPlayer()->dataPacket($packet);
 		} elseif($packet instanceof ModalFormResponsePacket) {
