@@ -10,9 +10,16 @@ class PlayerSession {
 	private $userName = "";
 	/** @var UUID */
 	private $clientUUID = null;
+	/** @var string */
+	private $address = "";
+	/** @var int */
+	private $port = 19132;
 
-	public function __construct(UUID $clientUUID) {
-		$this->clientUUID = $clientUUID;
+	public function __construct(string $clientUUID, string $address) {
+		$this->clientUUID = UUID::fromString($clientUUID);
+
+		$this->address = ($connectInfo = explode(":", $address))[0];
+		$this->port = (int) $address[1];
 	}
 
 	/**
@@ -37,5 +44,19 @@ class PlayerSession {
 	public function setUserName(string $userName): PlayerSession {
 		$this->userName = $userName;
 		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getAddress(): string {
+		return $this->address;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getPort(): int {
+		return $this->port;
 	}
 }

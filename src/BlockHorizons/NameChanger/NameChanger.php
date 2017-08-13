@@ -44,10 +44,6 @@ class NameChanger extends PluginBase implements Listener {
 	 * @param PlayerLoginEvent $event
 	 */
 	public function onLogin(PlayerLoginEvent $event) {
-		$clientUUID = $event->getPlayer()->getUniqueId();
-		if(!isset($this->sessions[$clientUUID->toString()])) {
-			$this->sessions[$clientUUID->toString()] = (new PlayerSession($clientUUID))->setUserName($event->getPlayer()->getName());
-		}
 		if(isset($this->userNameChanged[$event->getPlayer()->getName()])) {
 			$event->getPlayer()->sendMessage(TextFormat::GREEN . "Your username has been changed to " . $event->getPlayer()->getName());
 			unset($this->userNameChanged[$event->getPlayer()->getName()]);
@@ -81,13 +77,16 @@ class NameChanger extends PluginBase implements Listener {
 				return;
 			}
 			$this->sessions[$event->getPlayer()->getUniqueId()->toString()]->setUserName($formData[1]);
-			$event->getPlayer()->transfer($this->getServer()->getIp(), $this->getServer()->getPort(), "Username is being changed.");
+			$event->getPlayer()->transfer($this->sessions[$event->getPlayer()->getUniqueId()->toString()]->getAddress(), $this->sessions[$event->getPlayer()->getUniqueId()->toString()]->getPort(), "Username is being changed.");
 		} elseif($packet instanceof LoginPacket) {
 			if(!isset($this->sessions[$packet->clientUUID])) {
+				$this->sessions[$packet->clientUUID] = (new PlayerSession($packet->clientUUID, $packet->serverAddress))->setUserName($event->getPlayer()->getName());
 				return;
 			}
 			$packet->username = $this->sessions[$packet->clientUUID]->getUserName();
-			$this->userNameChanged[$packet->username] = true;
+			if($this->sessions[$packet->clientUUID]->getUserName() !== $packet->username) {
+				$this->userNameChanged[$packet->username] = true;
+			}
 		}
 	}
 }
