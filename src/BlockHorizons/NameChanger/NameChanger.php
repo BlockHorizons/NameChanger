@@ -81,11 +81,11 @@ class NameChanger extends PluginBase implements Listener {
 			$event->getPlayer()->transfer($this->sessions[$event->getPlayer()->getUniqueId()->toString()]->getAddress(), $this->sessions[$event->getPlayer()->getUniqueId()->toString()]->getPort(), "Username is being changed.");
 		} elseif($packet instanceof LoginPacket) {
 			if(!isset($this->sessions[$packet->clientUUID])) {
-				$this->sessions[$packet->clientUUID] = (new PlayerSession($packet->clientUUID, $packet->serverAddress))->setUserName($event->getPlayer()->getName());
+				$this->sessions[$packet->clientUUID] = (new PlayerSession($packet->clientUUID, $packet->serverAddress))->setUserName($packet->username);
 				return;
 			}
-			$packet->username = $this->sessions[$packet->clientUUID]->getUserName();
 			if($this->sessions[$packet->clientUUID]->getUserName() !== $packet->username) {
+				$packet->username = $this->sessions[$packet->clientUUID]->getUserName();
 				$this->userNameChanged[$packet->username] = true;
 			}
 		}
