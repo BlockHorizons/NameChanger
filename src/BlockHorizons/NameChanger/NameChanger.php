@@ -11,6 +11,7 @@ use pocketmine\network\mcpe\protocol\ServerSettingsRequestPacket;
 use pocketmine\network\mcpe\protocol\ServerSettingsResponsePacket;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\TextFormat;
+use pocketmine\utils\UUID;
 
 class NameChanger extends PluginBase implements Listener {
 
@@ -80,12 +81,12 @@ class NameChanger extends PluginBase implements Listener {
 			$this->sessions[$event->getPlayer()->getUniqueId()->toString()]->setUserName($formData[1]);
 			$event->getPlayer()->transfer($this->sessions[$event->getPlayer()->getUniqueId()->toString()]->getAddress(), $this->sessions[$event->getPlayer()->getUniqueId()->toString()]->getPort(), "Username is being changed.");
 		} elseif($packet instanceof LoginPacket) {
-			if(!isset($this->sessions[$packet->clientUUID])) {
-				$this->sessions[$packet->clientUUID] = (new PlayerSession($packet->clientUUID, $packet->serverAddress))->setUserName($packet->username);
+			if(!isset($this->sessions[UUID::fromString($packet->clientUUID)->toString()])) {
+				$this->sessions[UUID::fromString($packet->clientUUID)->toString()] = (new PlayerSession($packet->clientUUID, $packet->serverAddress))->setUserName($packet->username);
 				return;
 			}
-			if($this->sessions[$packet->clientUUID]->getUserName() !== $packet->username) {
-				$packet->username = $this->sessions[$packet->clientUUID]->getUserName();
+			if($this->sessions[UUID::fromString($packet->clientUUID)->toString()]->getUserName() !== $packet->username) {
+				$packet->username = $this->sessions[UUID::fromString($packet->clientUUID)->toString()]->getUserName();
 				$this->userNameChanged[$packet->username] = true;
 			}
 		}
