@@ -91,11 +91,11 @@ class NameChanger extends PluginBase implements Listener {
 				return;
 			}
 			$session = $this->sessions[UUID::fromString($packet->clientUUID)->toString()] ?? null;
-			if($session !== null) {
+			if($session === null) {
 				$this->sessions[UUID::fromString($packet->clientUUID)->toString()] = (new PlayerSession($packet->clientUUID, $packet->serverAddress))->setUserName($packet->username);
 				return;
 			}
-			if($session->getUserName() === $packet->username) {
+			if($session->getUserName() !== $packet->username) {
 				if(!Player::isValidUserName($session->getUserName())) {
 					unset($this->sessions[UUID::fromString($packet->clientUUID)->toString()]);
 					return;
