@@ -9,6 +9,7 @@ use pocketmine\network\mcpe\protocol\LoginPacket;
 use pocketmine\network\mcpe\protocol\ModalFormResponsePacket;
 use pocketmine\network\mcpe\protocol\ServerSettingsRequestPacket;
 use pocketmine\network\mcpe\protocol\ServerSettingsResponsePacket;
+use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\UUID;
@@ -74,8 +75,13 @@ class NameChanger extends PluginBase implements Listener {
 				$event->getPlayer()->sendMessage(TextFormat::RED . "You did not click the name change confirm button.");
 				return;
 			}
-			if(strtolower($formData[1]) === $event->getPlayer()->getLowerCaseName()) {
+			$newName = $formData[1];
+			if(strtolower($newName) === $event->getPlayer()->getLowerCaseName()) {
 				$event->getPlayer()->sendMessage(TextFormat::RED . "You can't change your name to your current name.");
+				return;
+			}
+			if(!Player::isValidUserName($newName)) {
+				$event->getPlayer()->sendMessage(TextFormat::RED . "Please enter a valid username.");
 				return;
 			}
 			$this->sessions[$event->getPlayer()->getUniqueId()->toString()]->setUserName($formData[1]);
