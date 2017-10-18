@@ -43,6 +43,7 @@ class PlayerSession {
 	 */
 	public function setUserName(string $userName): PlayerSession {
 		$this->userName = $userName;
+
 		return $this;
 	}
 

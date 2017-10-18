@@ -71,11 +71,14 @@ class NameChanger extends PluginBase implements Listener {
 				return;
 			}
 			$formData = (array) json_decode($packet->formData, true);
+			$newName = $formData[1];
+			if($newName === "Steve") {
+				return;
+			}
 			if(!$confirmed = $formData[2]) {
 				$event->getPlayer()->sendMessage(TextFormat::RED . "You did not click the name change confirm button.");
 				return;
 			}
-			$newName = $formData[1];
 			if(strtolower($newName) === $event->getPlayer()->getLowerCaseName()) {
 				$event->getPlayer()->sendMessage(TextFormat::RED . "You can't change your name to your current name.");
 				return;
